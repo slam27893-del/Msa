@@ -78,9 +78,11 @@ Msa/
 ./gradlew test               # اختبارات الوحدات (منطق التقدم + التخزين + بيانات المنهج)
 ```
 
-### APK جاهز
-فرع العمل يبني تلقائيًا عبر GitHub Actions (انظر `.github/workflows/build.yml`)
-وينشر الـ APK في **Releases** بعنوان «Prototype» — حمّله وثبّته مباشرة على جهازك.
+### APK جاهز (بناء تلقائي)
+سير العمل موجود في `tools/ci-workflow.yml` — لإيقاظه (مرة واحدة فقط):
+أنشئ ملف `.github/workflows/build.yml` في الفرع بنفس المحتوى
+(أو من واجهة GitHub: Add file ← Create new file).
+بعدها يُبنى الـ APK مع كل دفعة ويُنشر في **Releases** بعنوان «Prototype».
 
 ### اختبار منطق سريع بدون أي أدوات أندرويد
 ```bash
