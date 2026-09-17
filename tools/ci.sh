@@ -107,6 +107,20 @@ if [[ -n "${GH_TOKEN:-}" ]]; then
     --prerelease \
     --target "$GITHUB_SHA"
   echo "    تم النشر: https://github.com/${GITHUB_REPOSITORY}/releases/tag/prototype"
+
+  # قناة تحميل بديلة: فرع مستقل يحمل الـ APK فقط، يُستبدل مع كل بناء.
+  # (بعض الشبكات تعاني مع نطاق تحميل الـ releases، وهذا يوفر نطاقًا مختلفًا)
+  echo "    نشر قناة بديلة على فرع apk-delivery..."
+  APK="app/build/outputs/apk/debug/app-debug.apk"
+  if BLOB=$(git hash-object -w "$APK"); then
+    TREE=$(printf '100644 blob %s\tapp-debug.apk\n' "$BLOB" | git mktree)
+    COMMIT=$(git commit-tree "$TREE" -m "APK build $(date -u +%Y-%m-%d-%H:%M) UTC")
+    if git push origin "+${COMMIT}:refs/heads/apk-delivery" >/dev/null 2>&1; then
+      echo "    قناة بديلة: https://github.com/${GITHUB_REPOSITORY}/raw/apk-delivery/app-debug.apk"
+    else
+      echo "    (تعذر نشر القناة البديلة — الـ release الأساسي كافٍ)"
+    fi
+  fi
 else
   echo "    GH_TOKEN غير متوفر — تخطّي النشر."
 fi
