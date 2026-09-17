@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+
 package com.msa.studyassistant.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -62,7 +64,6 @@ import java.time.LocalDate
  * الصفحة الرئيسية — التركيز على «وش عندك غدًا؟»
  * ثم قسم «اليوم» مع خيارات الحالة لكل مادة وزر «حضرت اليوم».
  */
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: MainViewModel,
@@ -291,7 +292,6 @@ private fun TomorrowSubjectCard(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun TodaySubjectCard(
     subject: CurriculumSubject,

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.msa.studyassistant.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -27,7 +29,6 @@ import com.msa.studyassistant.ui.components.formatShortDate
  * صفحة «الدروس الفائتة»:
  * الدروس التي سُجّل غياب الطالب عنها ولم تُسجَّل أُخذت لاحقًا.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MissedLessonsScreen(
     viewModel: MainViewModel,

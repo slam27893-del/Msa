@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.msa.studyassistant.ui.screens
 
 import androidx.compose.foundation.background
@@ -55,7 +57,6 @@ import com.msa.studyassistant.ui.components.lessonDisplayStatus
  * شاشة المادة: الدرس الحالي/القادم + قائمة المنهج كاملًا.
  * تدعم «تحديد» لتعليم أكثر من درس كمأخوذ.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubjectDetailScreen(
     viewModel: MainViewModel,

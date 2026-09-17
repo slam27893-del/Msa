@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+
 package com.msa.studyassistant.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -53,7 +55,6 @@ import com.msa.studyassistant.ui.components.lessonDisplayStatus
  * شاشة الدرس: بيانات تجريبية (أهداف، مفاهيم، ملخص) + إجراءات
  * «تم أخذ هذا الدرس» و«اجعله الدرس الحالي» (مع تأكيد إذا كان بعيدًا).
  */
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun LessonScreen(
     viewModel: MainViewModel,

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+
 package com.msa.studyassistant.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +39,6 @@ import com.msa.studyassistant.ui.MainViewModel
  * شاشة الجدول الأسبوعي: تحديد المواد الموجودة في كل يوم (بدون أوقات حصص في هذه النسخة).
  * تُستخدم في الإعداد الأول، ويمكن فتحها لاحقًا للتعديل من الصفحة الرئيسية.
  */
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleScreen(
     viewModel: MainViewModel,

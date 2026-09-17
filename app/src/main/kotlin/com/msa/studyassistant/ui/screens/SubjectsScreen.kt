@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.msa.studyassistant.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +32,6 @@ import com.msa.studyassistant.ui.components.SubjectDot
 /**
  * قائمة المواد مع تقدم كل مادة.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubjectsScreen(
     viewModel: MainViewModel,
