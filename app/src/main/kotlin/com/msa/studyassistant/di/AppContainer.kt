@@ -33,7 +33,7 @@ class AppContainer(context: Context) {
     /** مصدر المنهج: بيانات تجريبية الآن، المناهج الرسمية لاحقًا. */
     val curriculumSource: CurriculumDataSource = SampleCurriculum
 
-    val curriculum: List<CurriculumSubject> = curriculumSource.subjects
+    val curriculum: List<CurriculumSubject> = curriculumSource.subjectsFor(StudentProfile())
 
     val viewModelFactory = viewModelFactory {
         initializer { MainViewModel(stateRepository, curriculum) }

@@ -2,7 +2,6 @@ package com.msa.studyassistant.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.msa.studyassistant.curriculum.CurriculumSubject
 import com.msa.studyassistant.domain.AttendanceDefaults
 import com.msa.studyassistant.domain.StudentProgress
 import com.msa.studyassistant.domain.StudentProgressCalculator
@@ -10,6 +9,7 @@ import com.msa.studyassistant.domain.SubjectProgress
 import com.msa.studyassistant.model.AppState
 import com.msa.studyassistant.model.AttendanceChoice
 import com.msa.studyassistant.model.CurriculumLesson
+import com.msa.studyassistant.model.CurriculumSubject
 import com.msa.studyassistant.model.StudentEvent
 import com.msa.studyassistant.model.StudentProfile
 import com.msa.studyassistant.model.SubjectAttendance
