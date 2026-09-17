@@ -30,6 +30,7 @@ import com.msa.studyassistant.ui.components.SubjectDot
 /**
  * قائمة المواد مع تقدم كل مادة.
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubjectsScreen(
     viewModel: MainViewModel,
