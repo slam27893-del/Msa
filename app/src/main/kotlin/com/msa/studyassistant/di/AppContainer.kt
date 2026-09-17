@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.msa.studyassistant.curriculum.CurriculumDataSource
 import com.msa.studyassistant.curriculum.SampleCurriculum
 import com.msa.studyassistant.model.CurriculumSubject
+import com.msa.studyassistant.model.StudentProfile
 import com.msa.studyassistant.storage.KeyValueStore
 import com.msa.studyassistant.storage.StudentStateRepository
 import com.msa.studyassistant.data.SharedPreferencesKeyValueStore

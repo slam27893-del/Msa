@@ -36,9 +36,13 @@ publish_error_release() {
     echo "==> نشر سجل الأخطاء في release مؤقت (build-log)"
     gh release delete build-log --cleanup-tag -y >/dev/null 2>&1 || true
     {
-      echo "آخر 500 سطر من سجل البناء الفاشل:"
+      echo "## أسطر الأخطاء (كاملة):"
       echo ""
-      tail -n 500 "$BUILD_LOG"
+      grep -nE "^e: |error: |FAILURE|What went wrong|Caused by" "$BUILD_LOG" 2>/dev/null | head -80 || echo "(لا أسطر أخطاء صريحة)"
+      echo ""
+      echo "## آخر 200 سطر من السجل:"
+      echo ""
+      tail -n 200 "$BUILD_LOG"
     } > /tmp/msa-error-snippet.txt
     gh release create build-log /tmp/msa-error-snippet.txt \
       --title "سجل آخر بناء فاشل (تشخيص)" \
