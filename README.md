@@ -78,7 +78,10 @@ Msa/
 ./gradlew test               # اختبارات الوحدات (منطق التقدم + التخزين + بيانات المنهج)
 ```
 
-### APK جاهز (بناء تلقائي)
+### APK جاهز
+حمّل آخر نسخة مباشرة من [Releases ← Prototype](https://github.com/slam27893-del/Msa/releases/tag/prototype)
+(يُبنى تلقائيًا مع كل دفعة — `app-debug.apk` قابل للتثبيت مباشرة على أي جهاز Android 8.0+).
+
 سير العمل الرسمي في `.github/workflows/build.yml` — نسخته المرجعية محفوظة في
 `tools/ci-workflow.yml` (مطابقة تمامًا)، وكل منطق البناء داخل `tools/ci.sh`
 حتى يمكن تعديل البنية دون لمس ملف سير العمل نفسه.
