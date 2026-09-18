@@ -46,6 +46,7 @@ fun SettingsScreen(
     viewModel: MainViewModel,
     onBack: () -> Unit,
     onEditSchedule: () -> Unit,
+    onOpenParentView: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val profile = state.profile
@@ -109,6 +110,29 @@ fun SettingsScreen(
                 shape = RoundedCornerShape(14.dp),
             ) {
                 Text(text = "تعديل الجدول", style = MaterialTheme.typography.titleSmall)
+            }
+
+            // PROOF OF CONCEPT - MOCK DATA: عرض ولي الأمر (قراءة فقط) — بدون حساب حقيقي.
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
+            Text(
+                text = "ولي الأمر (عرض فقط)",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Text(
+                text = "عرض بيانات الطالب بصلاحية قراءة فقط — تجريبي.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Button(
+                onClick = onOpenParentView,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(14.dp),
+            ) {
+                Text(text = "عرض كولي أمر", style = MaterialTheme.typography.titleSmall)
             }
             Spacer(Modifier.height(12.dp))
         }

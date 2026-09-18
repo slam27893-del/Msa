@@ -40,9 +40,11 @@ import androidx.navigation.navArgument
 import com.msa.studyassistant.R
 import com.msa.studyassistant.di.AppContainer
 import com.msa.studyassistant.ui.MainViewModel
+import com.msa.studyassistant.ui.screens.GradesScreen
 import com.msa.studyassistant.ui.screens.HomeScreen
 import com.msa.studyassistant.ui.screens.LessonScreen
 import com.msa.studyassistant.ui.screens.MissedLessonsScreen
+import com.msa.studyassistant.ui.screens.ParentViewScreen
 import com.msa.studyassistant.ui.screens.ProgressScreen
 import com.msa.studyassistant.ui.screens.ScheduleScreen
 import com.msa.studyassistant.ui.screens.SettingsScreen
@@ -59,11 +61,13 @@ object Routes {
     const val SUBJECTS = "subjects"
     const val PROGRESS = "progress"
     const val MISSED = "missed"
+    const val GRADES = "grades"
     const val SETTINGS = "settings"
+    const val PARENT_VIEW = "parent"
     const val SUBJECT_DETAIL = "subject/{subjectId}"
     const val LESSON = "lesson/{subjectId}/{lessonIndex}"
 
-    val topLevel = setOf(HOME, SUBJECTS, PROGRESS, MISSED)
+    val topLevel = setOf(HOME, SUBJECTS, PROGRESS, MISSED, GRADES)
 
     fun schedule(onboarding: Boolean) = "schedule?onboarding=$onboarding"
     fun subjectDetail(subjectId: String) = "subject/$subjectId"
@@ -163,11 +167,27 @@ fun AppRoot(container: AppContainer) {
                                 },
                             )
                         }
+                        composable(Routes.GRADES) {
+                            // PROOF OF CONCEPT - MOCK DATA: شاشة الدرجات (محاكاة نور) — تجريبية.
+                            GradesScreen(
+                                viewModel = viewModel,
+                                gradesStore = container.gradesStore,
+                            )
+                        }
+                        composable(Routes.PARENT_VIEW) {
+                            // PROOF OF CONCEPT - MOCK DATA: عرض ولي الأمر (قراءة فقط) — تجريبي.
+                            ParentViewScreen(
+                                viewModel = viewModel,
+                                gradesStore = container.gradesStore,
+                                onBack = { navController.popBackStack() },
+                            )
+                        }
                         composable(Routes.SETTINGS) {
                             SettingsScreen(
                                 viewModel = viewModel,
                                 onBack = { navController.popBackStack() },
                                 onEditSchedule = { navController.navigate(Routes.schedule(onboarding = false)) },
+                                onOpenParentView = { navController.navigate(Routes.PARENT_VIEW) },
                             )
                         }
                         composable(
@@ -241,6 +261,12 @@ private fun MsaBottomBar(navController: NavHostController, currentRoute: String?
                 }
             },
             label = { Text("الفائتة") },
+        )
+        NavigationBarItem(
+            selected = currentRoute == Routes.GRADES,
+            onClick = { navController.navigateTopLevel(Routes.GRADES) },
+            icon = { Icon(painterResource(R.drawable.ic_grades), contentDescription = null) },
+            label = { Text("الدرجات") },
         )
     }
 }

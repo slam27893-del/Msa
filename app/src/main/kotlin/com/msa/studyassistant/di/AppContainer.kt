@@ -9,6 +9,7 @@ import com.msa.studyassistant.model.CurriculumSubject
 import com.msa.studyassistant.model.StudentProfile
 import com.msa.studyassistant.storage.KeyValueStore
 import com.msa.studyassistant.storage.StudentStateRepository
+import com.msa.studyassistant.data.GradesStore
 import com.msa.studyassistant.data.SharedPreferencesKeyValueStore
 import com.msa.studyassistant.data.ThemeStore
 import com.msa.studyassistant.ui.MainViewModel
@@ -30,6 +31,9 @@ class AppContainer(context: Context) {
 
     /** حالة الطالب: تُحمَّل من التخزين وتُحفَظ مع كل تعديل. */
     val stateRepository = StudentStateRepository(keyValueStore)
+
+    // PROOF OF CONCEPT - MOCK DATA: درجات يدوية تجريبية (محاكاة نور) — تخزين محلي فقط، لا ربط خارجي.
+    val gradesStore = GradesStore(keyValueStore)
 
     /** مصدر المنهج: بيانات تجريبية الآن، المناهج الرسمية لاحقًا. */
     val curriculumSource: CurriculumDataSource = SampleCurriculum
