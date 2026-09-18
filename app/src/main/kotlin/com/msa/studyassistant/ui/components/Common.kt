@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
@@ -170,4 +171,21 @@ fun BulletRow(text: String, modifier: Modifier = Modifier) {
         Spacer(Modifier.width(10.dp))
         Text(text, style = MaterialTheme.typography.bodyMedium)
     }
+}
+
+/**
+ * سهم صغير يشير إلى أن البطاقة قابلة للفتح.
+ * يشير لليسار لأن الواجهة عربية RTL (اتجاه التقدم للأمام).
+ */
+@Composable
+fun OpenChevron(
+    tint: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    modifier: Modifier = Modifier,
+) {
+    Icon(
+        imageVector = Icons.Filled.KeyboardArrowLeft,
+        contentDescription = null,
+        tint = tint,
+        modifier = modifier,
+    )
 }

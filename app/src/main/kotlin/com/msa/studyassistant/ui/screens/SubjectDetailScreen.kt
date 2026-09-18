@@ -51,6 +51,7 @@ import com.msa.studyassistant.model.LessonEntry
 import com.msa.studyassistant.ui.MainViewModel
 import com.msa.studyassistant.ui.components.LessonStatusBadge
 import com.msa.studyassistant.ui.components.LessonDisplayStatus
+import com.msa.studyassistant.ui.components.OpenChevron
 import com.msa.studyassistant.ui.components.lessonDisplayStatus
 
 /**
@@ -242,6 +243,9 @@ private fun LessonRow(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+        }
+        if (!selectMode) {
+            OpenChevron()
         }
     }
 }

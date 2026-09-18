@@ -84,15 +84,30 @@ class MainViewModel(
     // أفعال (من الواجهة)
     // ------------------------------------------------------------------
 
+    /** لقطة الأحداث قبل آخر تسجيل يوم — تُستخدم لزر «تراجع» في رسالة النجاح. */
+    private var eventsBeforeLastRecording: List<StudentEvent>? = null
+
     fun saveProfile(profile: StudentProfile) = repository.update { it.withProfile(profile) }
 
     fun saveSchedule(schedule: WeeklySchedule) = repository.update { it.withSchedule(schedule) }
 
-    /** تسجيل/تحديث يوم دراسي (زر «حضرت اليوم» أو تعديل حالات المواد). */
-    fun recordDay(date: LocalDate, choices: Map<String, AttendanceChoice>) =
+    /**
+     * تسجيل/تحديث يوم دراسي (زر «حضرت اليوم» أو تعديل حالات المواد).
+     * تُحفظ لقطة الأحداث قبل التسجيل لإتاحة التراجع السريع بعدها.
+     */
+    fun recordDay(date: LocalDate, choices: Map<String, AttendanceChoice>) {
+        eventsBeforeLastRecording = state.value.events
         repository.update {
             it.withDayAttendance(date.toString(), choices.map { (subjectId, choice) -> SubjectAttendance(subjectId, choice) })
         }
+    }
+
+    /** تراجع عن آخر تسجيل يوم (يستعيد الأحداث كما كانت قبله بالضبط). */
+    fun undoLastDayRecording() {
+        val snapshot = eventsBeforeLastRecording ?: return
+        eventsBeforeLastRecording = null
+        repository.update { it.copy(events = snapshot) }
+    }
 
     /** تعليم درس أو أكثر بأنها أُخذت. */
     fun markLessonsTaken(subjectId: String, lessonIndices: Collection<Int>) {

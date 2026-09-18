@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.msa.studyassistant.ui.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
@@ -6,6 +8,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -40,6 +45,7 @@ import com.msa.studyassistant.ui.screens.LessonScreen
 import com.msa.studyassistant.ui.screens.MissedLessonsScreen
 import com.msa.studyassistant.ui.screens.ProgressScreen
 import com.msa.studyassistant.ui.screens.ScheduleScreen
+import com.msa.studyassistant.ui.screens.SettingsScreen
 import com.msa.studyassistant.ui.screens.SetupScreen
 import com.msa.studyassistant.ui.screens.SubjectDetailScreen
 import com.msa.studyassistant.ui.screens.SubjectsScreen
@@ -53,6 +59,7 @@ object Routes {
     const val SUBJECTS = "subjects"
     const val PROGRESS = "progress"
     const val MISSED = "missed"
+    const val SETTINGS = "settings"
     const val SUBJECT_DETAIL = "subject/{subjectId}"
     const val LESSON = "lesson/{subjectId}/{lessonIndex}"
 
@@ -70,6 +77,7 @@ object Routes {
 fun AppRoot(container: AppContainer) {
     val viewModel: MainViewModel = viewModel(factory = container.viewModelFactory)
     val themeMode by container.themeStore.mode.collectAsState()
+    val progress by viewModel.progress.collectAsStateWithLifecycle()
 
     MsaTheme(themeMode = themeMode) {
         Surface(
@@ -86,7 +94,11 @@ fun AppRoot(container: AppContainer) {
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         if (showBottomBar) {
-                            MsaBottomBar(navController, currentRoute)
+                            MsaBottomBar(
+                                navController = navController,
+                                currentRoute = currentRoute,
+                                missedCount = progress.missedLessons.size,
+                            )
                         }
                     },
                 ) { innerPadding ->
@@ -130,7 +142,7 @@ fun AppRoot(container: AppContainer) {
                             HomeScreen(
                                 viewModel = viewModel,
                                 themeStore = container.themeStore,
-                                onEditSchedule = { navController.navigate(Routes.schedule(onboarding = false)) },
+                                onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                                 onOpenSubject = { navController.navigate(Routes.subjectDetail(it)) },
                             )
                         }
@@ -149,6 +161,13 @@ fun AppRoot(container: AppContainer) {
                                 onOpenLesson = { subjectId, lessonIndex ->
                                     navController.navigate(Routes.lesson(subjectId, lessonIndex))
                                 },
+                            )
+                        }
+                        composable(Routes.SETTINGS) {
+                            SettingsScreen(
+                                viewModel = viewModel,
+                                onBack = { navController.popBackStack() },
+                                onEditSchedule = { navController.navigate(Routes.schedule(onboarding = false)) },
                             )
                         }
                         composable(
@@ -187,7 +206,7 @@ fun AppRoot(container: AppContainer) {
 }
 
 @Composable
-private fun MsaBottomBar(navController: NavHostController, currentRoute: String?) {
+private fun MsaBottomBar(navController: NavHostController, currentRoute: String?, missedCount: Int) {
     NavigationBar {
         NavigationBarItem(
             selected = currentRoute == Routes.HOME,
@@ -210,7 +229,17 @@ private fun MsaBottomBar(navController: NavHostController, currentRoute: String?
         NavigationBarItem(
             selected = currentRoute == Routes.MISSED,
             onClick = { navController.navigateTopLevel(Routes.MISSED) },
-            icon = { Icon(Icons.Filled.Warning, contentDescription = null) },
+            icon = {
+                BadgedBox(
+                    badge = {
+                        if (missedCount > 0) {
+                            Badge { Text(text = missedCount.toString()) }
+                        }
+                    },
+                ) {
+                    Icon(Icons.Filled.Warning, contentDescription = null)
+                }
+            },
             label = { Text("الفائتة") },
         )
     }

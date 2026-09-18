@@ -10,15 +10,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,7 +36,9 @@ import com.msa.studyassistant.model.StudyTrack
 
 /**
  * شاشة إعداد الطالب: مرحلة/صف/فصل/مسار.
- * القيم حاليًا ثابتة (Prototype أول ثانوي - فصل أول) وقابلة للتوسعة من تعريفات النماذج.
+ * القيم تُعرض كبيانات محددة ومعتمدة (وليست أزرارًا) لأنها الخيارات
+ * المتاحة حاليًا في الـ Prototype — ويمكن مراجعتها وتعديل الجدول
+ * لاحقًا في أي وقت من شاشة الإعدادات.
  */
 @Composable
 fun SetupScreen(onStart: (StudentProfile) -> Unit) {
@@ -40,9 +47,9 @@ fun SetupScreen(onStart: (StudentProfile) -> Unit) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(16.dp))
         Text(
             text = "المساعد الدراسي الذكي",
             style = MaterialTheme.typography.headlineMedium,
@@ -53,18 +60,18 @@ fun SetupScreen(onStart: (StudentProfile) -> Unit) {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(4.dp))
 
-        SetupField(label = "المرحلة", options = Stage.entries.map { it.displayName })
-        SetupField(label = "الصف", options = GradeLevel.entries.map { it.displayName })
-        SetupField(label = "الفصل الدراسي", options = Semester.entries.map { it.displayName })
+        SetupField(label = "المرحلة", value = Stage.SECONDARY.displayName)
+        SetupField(label = "الصف", value = GradeLevel.FIRST_SECONDARY.displayName)
+        SetupField(label = "الفصل الدراسي", value = Semester.FIRST.displayName)
         SetupField(
             label = "المسار",
-            options = StudyTrack.entries.map { it.displayName },
+            value = StudyTrack.GENERAL.displayName,
             note = "خيارات المسارات تُفعَّل في نسخة قادمة.",
         )
 
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(4.dp))
         Button(
             onClick = { onStart(StudentProfile()) },
             modifier = Modifier
@@ -75,7 +82,7 @@ fun SetupScreen(onStart: (StudentProfile) -> Unit) {
             Text(text = "التالي", style = MaterialTheme.typography.titleMedium)
         }
         Text(
-            text = "يمكنك تعديل هذه الإعدادات لاحقًا.",
+            text = "يمكنك مراجعة هذه البيانات وتعديل جدولك لاحقًا من الإعدادات.",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
@@ -84,21 +91,36 @@ fun SetupScreen(onStart: (StudentProfile) -> Unit) {
     }
 }
 
+/** صف بيانات محددة (غير قابل للنقر) — يوضح القيمة المعتمدة بوضوح دون أن يبدو زرًا. */
 @Composable
-private fun SetupField(label: String, options: List<String>, note: String? = null) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+private fun SetupField(label: String, value: String, note: String? = null) {
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Text(
             text = label,
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            options.forEach { option ->
-                FilterChip(
-                    selected = option == options.firstOrNull(),
-                    onClick = {},
-                    label = { Text(option) },
+        Surface(
+            shape = RoundedCornerShape(12.dp),
+            color = MaterialTheme.colorScheme.surfaceVariant,
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 14.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.CheckCircle,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+                Spacer(Modifier.width(10.dp))
+                Text(
+                    text = value,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
                 )
             }
         }

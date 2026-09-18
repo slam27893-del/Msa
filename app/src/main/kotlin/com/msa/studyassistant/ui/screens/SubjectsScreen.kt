@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.msa.studyassistant.ui.MainViewModel
+import com.msa.studyassistant.ui.components.OpenChevron
 import com.msa.studyassistant.ui.components.SubjectDot
 
 /**
@@ -83,6 +84,8 @@ fun SubjectsScreen(
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.primary,
                         )
+                        Spacer(Modifier.width(4.dp))
+                        OpenChevron()
                     }
                     LinearProgressIndicator(
                         progress = { (subjectProgress?.percent ?: 0) / 100f },

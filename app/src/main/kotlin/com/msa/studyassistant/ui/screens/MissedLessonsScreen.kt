@@ -5,6 +5,7 @@ package com.msa.studyassistant.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.msa.studyassistant.ui.MainViewModel
 import com.msa.studyassistant.ui.components.EmptyState
+import com.msa.studyassistant.ui.components.OpenChevron
 import com.msa.studyassistant.ui.components.formatShortDate
 
 /**
@@ -75,28 +78,34 @@ fun MissedLessonsScreen(
                     shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
                 ) {
-                    Column(
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text(
-                            text = subject?.name ?: missed.subjectId,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onErrorContainer,
-                        )
-                        Text(
-                            text = lesson?.title ?: "",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onErrorContainer,
-                        )
-                        Text(
-                            text = "فاتك في: ${missed.missedDates.joinToString("، ") { formatShortDate(it) }}",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onErrorContainer,
-                        )
+                        Column(
+                            Modifier.weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                        ) {
+                            Text(
+                                text = subject?.name ?: missed.subjectId,
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onErrorContainer,
+                            )
+                            Text(
+                                text = lesson?.title ?: "",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onErrorContainer,
+                            )
+                            Text(
+                                text = "فاتك في: ${missed.missedDates.joinToString("، ") { formatShortDate(it) }}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onErrorContainer,
+                            )
+                        }
+                        OpenChevron(tint = MaterialTheme.colorScheme.onErrorContainer)
                     }
                 }
             }
